@@ -25,12 +25,12 @@ class StudentRecordsPage extends StatelessWidget {
                     sortAscending: state.sortAscending,
                     columns: [
 
-                        // Student ID column
+                        // Column 0: Matric number (not sortable)
                         const DataColumn(
-                            label: Text('ID'),
+                            label: Text('Matric No'),
                         ),
 
-                        // Name column with sorting functionality
+                        // Column 1: Name with sorting functionality
                         DataColumn(
                             label: const Text('Name'),
                             onSort: (columnIndex, ascending) {
@@ -38,29 +38,37 @@ class StudentRecordsPage extends StatelessWidget {
                             },
                         ),
 
-                        // Department column
-                        const DataColumn(label: Text('Department')),
+                        // Column 2: Programme code (not sortable)
+                        const DataColumn(label: Text('Programme')),
 
-                        // Age column with sorting functionality
+                        // Column 3: Year of study (not sortable)
+                        const DataColumn(
+                            label: Text('Year'),
+                            numeric: true,
+                        ),
+
+                        // Column 4: CGPA with sorting functionality
                         DataColumn(
-                            label: const Text('Age'),
+                            label: const Text('CGPA'),
                             numeric: true,
                             onSort: (columnIndex, ascending) {
-                                state.sortRecords((s) => s.age, columnIndex, ascending);
+                                state.sortRecords((s) => s.cgpa, columnIndex, ascending);
                             },
                         ),
                     ],
 
-                    // Generate rows from each student records
+                    // Generate one row for each student record
                     rows: state.records.map((record) {
                         return DataRow(
                             cells: [
 
-                                // Display student details
-                                DataCell(Text(record.id)),
+                                // Cell order must match the column order above
+                                DataCell(Text(record.matricNo)),
                                 DataCell(Text(record.name)),
-                                DataCell(Text(record.department)),
-                                DataCell(Text(record.age.toString())),
+                                DataCell(Text(record.programmeCode)),
+                                DataCell(Text(record.yearOfStudy.toString())),
+                                // Show CGPA with 2 decimals (3.5 becomes 3.50)
+                                DataCell(Text(record.cgpa.toStringAsFixed(2))),
                             ],
                         );
                     }).toList(),
